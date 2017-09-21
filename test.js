@@ -22,10 +22,12 @@ const cases = {
                 }
             ]
         }
-    }
+    },
+    case4: `a≈'b'`,
+    result4: {match: {a: "b"}}
 };
 
-describe('Test Function', function () {
+describe('Test Suite', function () {
 
     describe('Simple YMember Test', function () {
         it(``, function () {
@@ -42,6 +44,12 @@ describe('Test Function', function () {
     describe('And Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result3), JSON.stringify(parser.parse(cases.case3)));
+        });
+    });
+
+    describe('Approximate Test', function () {
+        it(``, function () {
+            assert.equal(JSON.stringify(cases.result4), JSON.stringify(parser.parse(cases.case4)));
         });
     });
 });

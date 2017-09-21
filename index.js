@@ -8,6 +8,7 @@ let grammar = {
 
             // OPERATORS
             ["\\=", "return '=' "],
+            ["\\≈", "return '≈' "],
             ["\\!\\=", "return '!=' "],
             ["\\>\\=", "return '>=' "],
             ["\\>", "return '>' "],
@@ -49,7 +50,7 @@ let grammar = {
         // ["right", "!"],
         ["left", "&", "|"],
         ["left", ">", ">=", "<", "<="],
-        ["left", "=", "!="],
+        ["left", "=", "!=", "≈"],
         ["left", "LIKE", "IN"]
     ],
 
@@ -84,6 +85,11 @@ let grammar = {
         ],
 
         "YMember": [
+            ["LITERAL ≈ YValue", `$$ = (function(key, value){
+                let tmp = {"match": {}};
+                tmp.match[key] = value;
+                return tmp
+            })($1, $3)`],
             ["LITERAL = YValue", `$$ = (function(key, value){
                 let tmp = {"term": {}};
                 tmp.term[key] = value;
@@ -127,7 +133,7 @@ let grammar = {
             ["( YMember )", `$$ = $2`]
         ],
 
-        "YMemberList":[
+        "YMemberList": [
             ["YMember & YMember", `$$ = [[$1, $3]]`],
             ["YMember | YMember", `$$ = [[$1], $3]`],
             ["YMemberList & YMember", `$$ = $1; $1[0].push($3)`],
@@ -171,7 +177,7 @@ let grammar = {
             })($1, $3)`],
         ],
 
-        "YConditionsList":[
+        "YConditionsList": [
             ["YConditions & YMember", `$$ = [[$1, $3]]`],
             ["YConditions | YMember", `$$ = [[$1], [$3]]`],
             ["YConditions & YMember", `$$ = $1; $1[0].push($3)`],
