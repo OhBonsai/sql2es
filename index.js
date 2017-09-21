@@ -31,11 +31,11 @@ let grammar = {
             // CHARS
             ["\\s+", "/* skip whitespace */"],
             ["(false|False|FALSE|TRUE|True|true)", "return 'BOOLEAN' "],
-            ["^`?([a-z_][a-z0-9_]{0,})`?", "return 'LITERAL' "],
+            ["^`?([a-zA-Z_][a-zA-Z0-9_]{0,})`?", "return 'LITERAL' "],
             ["^\"([^\\\\\"]*(?:\\\\.[^\\\\\"]*)*)\"", "return 'DBLSTRING' "],
             ["^\'([^\\\\\']*(?:\\\\.[^\\\\\']*)*)\'", "return 'STRING' "],
             ["[0-9]+(?:\\.[0-9]+)?\\b", "return 'NUMBER' "],
-
+            ["\\-", "return '-'"],
 
             // END
             ["$", "return 'EOF' "]
@@ -67,6 +67,7 @@ let grammar = {
 
         "YValue": [
             ["NUMBER", `$$ = Number(yytext)`],
+            ["- NUMBER", `$$ = -Number($2)`],
             ["BOOLEAN", `$$ = yytext.toLowerCase()=='true' ? true : false`],
             ["YString", `$$ = $1`],
         ],
