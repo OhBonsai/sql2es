@@ -9,7 +9,7 @@ const cases = {
     case3: `(Keywords=-9214364837600034816 and Severity="INFO")`,
     result3: {
         "bool": {
-            "must": [
+            "filter": [
                 {
                     "term": {
                         "Keywords": -9214364837600034816
@@ -24,7 +24,20 @@ const cases = {
         }
     },
     case4: `a≈'b'`,
-    result4: {match: {a: "b"}}
+    result4: {match: {a: "b"}},
+    case5: `((a="b" and (a="b" AND a="b")) or a="b")`,
+    result5: {
+        "bool": {
+            "should": [
+                {"bool": {
+                    "filter": [
+                        {"term": {"a": "b"}},
+                        {"term": {"a": "b"}},
+                        {"term": {"a": "b"}}]}},
+                {"term": {"a": "b"}
+            }]
+        }
+    }
 };
 
 describe('Test Suite', function () {
@@ -50,6 +63,12 @@ describe('Test Suite', function () {
     describe('Approximate Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result4), JSON.stringify(parser.parse(cases.case4)));
+        });
+    });
+
+    describe('Complex Brackets Test', function () {
+        it(``, function () {
+            assert.equal(JSON.stringify(cases.result5), JSON.stringify(parser.parse(cases.case5)));
         });
     });
 });
