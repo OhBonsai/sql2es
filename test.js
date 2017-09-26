@@ -26,49 +26,81 @@ const cases = {
     case4: `a≈'b'`,
     result4: {match: {a: "b"}},
     case5: `((a="b" and (a="b" AND a="b")) or a="b")`,
-    result5: {
+    result5: {"bool":{"should":[{"bool":{"filter":[{"term":{"a":"b"}},{"term":{"a":"b"}},{"term":{"a":"b"}}]}},{"term":{"a":"b"}}]}},
+    case6: `system_platform in ["linux", "window"] `,
+    result6: {"terms":{"system_platform":["linux","window"]}},
+    case7: `system_platform Like "linu*" `,
+    result7: {"wildcard":{"system_platform":"linu*"}},
+    case8: `(a=b * a>=4) * (a=b * a>=4)`,
+    result8: {"bool":{"must":[{"bool":{"filter":[{"term":{"a":"b"}},{"range":{"a":{"gte":"4"}}}]}},{"bool":{"filter":[{"term":{"a":"b"}},{"range":{"a":{"gte":"4"}}}]}}]}},
+    case9: `~ a=b`,
+    result9: {
         "bool": {
-            "should": [
-                {"bool": {
-                    "filter": [
-                        {"term": {"a": "b"}},
-                        {"term": {"a": "b"}},
-                        {"term": {"a": "b"}}]}},
-                {"term": {"a": "b"}
-            }]
+            "must_not": [
+                {
+                    "term": {
+                        "a": "b"
+                    }
+
+                }
+            ]
         }
     }
 };
 
 describe('Test Suite', function () {
 
-    describe('Simple YMember Test', function () {
+    describe('1.Simple YMember Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result1), JSON.stringify(parser.parse(cases.case1)));
         });
     });
 
-    describe('Negative Number Test', function () {
+    describe('2.Negative Number Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result2), JSON.stringify(parser.parse(cases.case2)));
         });
     });
 
-    describe('And Test', function () {
+    describe('3.And Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result3), JSON.stringify(parser.parse(cases.case3)));
         });
     });
 
-    describe('Approximate Test', function () {
+    describe('4.Approximate Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result4), JSON.stringify(parser.parse(cases.case4)));
         });
     });
 
-    describe('Complex Brackets Test', function () {
+    describe('5.Complex Brackets Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result5), JSON.stringify(parser.parse(cases.case5)));
+        });
+    });
+
+    describe('6.In Test', function () {
+        it(``, function () {
+            assert.equal(JSON.stringify(cases.result6), JSON.stringify(parser.parse(cases.case6)));
+        });
+    });
+
+    describe('7.Like Test', function () {
+        it(``, function () {
+            assert.equal(JSON.stringify(cases.result7), JSON.stringify(parser.parse(cases.case7)));
+        });
+    });
+
+    describe('8.Complex And Test', function () {
+        it(``, function () {
+            assert.equal(JSON.stringify(cases.result8), JSON.stringify(parser.parse(cases.case8)));
+        });
+    });
+
+    describe('9.Not Test', function () {
+        it(``, function () {
+            assert.equal(JSON.stringify(cases.result9), JSON.stringify(parser.parse(cases.case9)));
         });
     });
 });
