@@ -45,7 +45,9 @@ const cases = {
                 }
             ]
         }
-    }
+    },
+    case10: `a='10.201.81-&24'`,
+    result10: {term: {a: "10.201.81-&24"}}
 };
 
 describe('Test Suite', function () {
@@ -101,6 +103,12 @@ describe('Test Suite', function () {
     describe('9.Not Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result9), JSON.stringify(parser.parse(cases.case9)));
+        });
+    });
+
+    describe('10.Special Char Test', function () {
+        it(``, function () {
+            assert.equal(JSON.stringify(cases.result10), JSON.stringify(parser.parse(cases.case10)));
         });
     });
 });
