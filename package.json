@@ -30,6 +30,7 @@
     "mocha": "^3.5.3"
   },
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha"
+    "build": "node compile.js",
+    "test": "npm run build && node_modules/mocha/bin/mocha"
   }
 }

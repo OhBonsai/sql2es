@@ -1,5 +1,5 @@
 let assert = require('assert');
-let parser = require('./index.js');
+let parser = require('../index.js');
 
 const cases = {
     case1: `a=b`,
