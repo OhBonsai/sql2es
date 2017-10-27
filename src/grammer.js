@@ -89,7 +89,7 @@ let grammar = {
                     for(let item of orList){
                         if(!Array.isArray(item)){
                             result.bool.should.push(item)
-                        }else if(item.length === 1 && item[0][0].length === 1){
+                        }else if(item.length === 1 && item[0][0] && item[0][0].length === 1){
                             result.bool.should.push(item[0][0])
                         } else{
                             let must_tmp = {bool: {must: [], filter: []}};

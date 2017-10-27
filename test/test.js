@@ -47,7 +47,9 @@ const cases = {
         }
     },
     case10: `a='10.201.81-&24'`,
-    result10: {term: {a: "10.201.81-&24"}}
+    result10: {term: {a: "10.201.81-&24"}},
+    case11: `a = 1 and d LIKE "adfa" AND  (b=2 or b =3)`,
+    result11: {"bool":{"must":[{"bool":{"filter":[{"term":{"a":1}},{"wildcard":{"d":"adfa"}}]}},{"bool":{"should":[{"bool":{"filter":[{"term":{"b":2}}]}},{"term":{"b":3}}]}}]}},
 };
 
 describe('Test Suite', function () {
@@ -109,6 +111,12 @@ describe('Test Suite', function () {
     describe('10.Special Char Test', function () {
         it(``, function () {
             assert.equal(JSON.stringify(cases.result10), JSON.stringify(parser.parse(cases.case10)));
+        });
+    });
+
+    describe('11.Special Or Test', function () {
+        it(``, function () {
+            assert.equal(JSON.stringify(cases.result11), JSON.stringify(parser.parse(cases.case11)));
         });
     });
 });
