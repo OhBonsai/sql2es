@@ -11,6 +11,8 @@ let grammar = {
             // OPERATORS
             ["\\=", "return '=' "],
             ["\\≈", "return '≈' "],
+            ["[Tt][Ee][Rr][Mm]", "return '=' "],
+            ["[M,m][A,a][T,t][C,c][H,h]", "return '≈' "],
             ["\\!\\=", "return '!=' "],
             ["\\>\\=", "return '>=' "],
             ["\\>", "return '>' "],
@@ -34,11 +36,11 @@ let grammar = {
             // CHARS
             ["\\s+", "/* skip whitespace */"],
 
+            ["[0-9]+(?:\\.[0-9]+)?\\b", "return 'NUMBER' "],
             ["(false|False|FALSE|TRUE|True|true)", "return 'BOOLEAN' "],
             ["^`?([a-zA-Z_][a-zA-Z0-9_]{0,})`?", "return 'LITERAL' "],
             ["^\"([^\\\\\"]*(?:\\\\.[^\\\\\"]*)*)\"", "return 'DBLSTRING' "],
             ["^\'([^\\\\\']*(?:\\\\.[^\\\\\']*)*)\'", "return 'STRING' "],
-            ["[0-9]+(?:\\.[0-9]+)?\\b", "return 'NUMBER' "],
             ["\\-", "return '-'"],
 
             // END
